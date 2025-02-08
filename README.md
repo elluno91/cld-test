@@ -1,66 +1,73 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# CLD TEST
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## Readme
 
-## About Laravel
+Nomor 1 : 
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### Requirement
+- PHP 8.2
+- MySQL Server (Bisa menggunakan XAMPP)
+- Composer (Bisa install terlebih dahulu di composer.org)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+REST API dibuat menggunakan framework laravel berbasis PHP menggunakan composer. 
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Untuk menjalankan nya diperlukan langkah langkah berikut ini
 
-## Learning Laravel
+1. Pull Source Code
+2. Buka terminal, dan arahkan direktori terminal ke tempat source code yang sudah di clone
+3. Ketik "composer install", maka secara otomatis composer akan menginstall dependency yang diperlukan, ketika sudah selesai, jangan tutup terminal terlebih dahulu.
+4. Buat Database Mysql 
+5. Copy Paste .env.example menjadi .env 
+6. Edit File .env dan tambahkan baris dibawah sendiri JWT_SECRET=b872605b9656ef9edf22fc868903172b020dfdccc1bdb3301ac9404804cffe0a
+7. Edit File .env dan ubah parameter DB_CONNECTION menjadi "mysql"
+8. Edit File .env dan ubah parameter DB_HOST dengan ip server mysql server
+9. Edit File .env dan ubah parameter DB_DATABASE dengan nama database Mysql yang sudah dibuat
+10. Edit File .env dan ubah parameter DB_USERNAME dengan nama user Mysql
+11. Edit File .env dan ubah parameter DB_PASSWORD dengan password user Mysql
+12. Buka kembali terminal, ketik "php artisan migrate", maka secara otomatis script akan membuat database dan table.
+13. Ketik perintah "php artisan db:seed" untuk menjalankan script insert data demo ke database 
+14. Ketik php artisan serve, tunggu hingga muncul http://127.0.0.1:8000 maka script php sudah bisa di akses.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Untuk menjalankan unit test yang sudah dibuat dapat dilakukan dengan cara
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+1. Buka terminal, dan arahkan direktori terminal ke tempat source code yang sudah di clone
+2. Ketik php artisan test
+3. Maka akan muncul hasil test di terminal.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Berikut cara menggunakan endpoint beserta parameter yang dapat digunakan.
 
-## Laravel Sponsors
+1. Akses http://127.0.0.1:8000/api/Authenticate dengan method *POST* untuk mendapatkan token (membutuhkan parameter app_id dan app_secret dengan value 123456)
+2. Setelah mendapatkan token, gunakan token ini pada header requrest untuk mengakses endpoint lainnya.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+End Point: 
+1. http://127.0.0.1:8000/api/room (GET, Request parameter : date_check_in, date_check_out, pax_count, Response : room_id)
+2. http://127.0.0.1:8000/api/create-reservation (POST, Request parameter : customer_name, room_id, date_check_in, date_check_out, pax_count, Response : booking_code)
+3. http://127.0.0.1:8000/api/cancel-reservation (POST, Request Parameter : booking_code)
+4. http://127.0.0.1:8000/api/reservation (GET, Optional Request Parameter : booking_code, date_check_in, date_check_out)
 
-### Premium Partners
+Nomor 2:
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+```
+<?php
+function is_anagram($string1,$string2){
+  $status = "false";
+  if($string1 != "" && $string2 != ""){
+   $string1 = str_split($string1);
+   $string2 = str_split($string2);
+   sort($string1);
+   sort($string2);
+   if($string1 === $string2){
+   $status = "true";
+   } 
+  }
+  return $status;
+}
 
-## Contributing
+echo is_anagram("listen","silent")."<br/>";
+echo is_anagram("hello","world")."<br/>";
+?>
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Nomor 3 :
+- https://dartpad.dev/?id=cb4e91aca7e7fcf51b7dfe832bfa744b
+- https://gist.github.com/elluno91/cb4e91aca7e7fcf51b7dfe832bfa744b

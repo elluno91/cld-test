@@ -6,7 +6,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Tests\TestCase;
 
-class CreateReservationTest extends TestCase
+class CheckAvailableRoomTest extends TestCase
 {
     public $token;
     /**
@@ -14,7 +14,7 @@ class CreateReservationTest extends TestCase
      */
     private function getToken() {
 
-        $responseJSON = $this->post(Route('authenticate.store'), [
+        $responseJSON = $this->post(Route('authenticate'), [
             'app_id' => '123456',
             'app_secret' => '123456',
         ])->decodeResponseJson()->json();
@@ -29,14 +29,15 @@ class CreateReservationTest extends TestCase
 
     }
 
-    public function test_create_reservation(): void {
+    public function test_check_available_room(): void {
         $responseJSON = $this->getToken();
+        $this->assertFalse(key_exists('error', $responseJSON));
+        if(isset($responseJSON['token'])) {
+            $token = $responseJSON['token'];
+            $responseJSON = $this->get(Route('room')."?date_check_in=2025-01-26&date_check_out=2025-01-27&pax_count=2",["token" => $token])->decodeResponseJson()->json();
 
-        $response = $this->get(Route('customer.index'), [
-            'Token' => $responseJSON['token'],
-        ]);
-        $responseDecoded = $response->decodeResponseJson()->json();
-        $response->assertStatus(200);
+            $this->assertFalse(key_exists('error', $responseJSON));
+        }
 
     }
 }

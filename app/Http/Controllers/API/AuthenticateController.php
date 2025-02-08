@@ -20,9 +20,7 @@ class AuthenticateController extends Controller
         $app_secret = $request->input('app_secret');
 
         if($app_id !== null && $app_secret !== null) {
-            if ($app_id != "123456" && $app_secret != "123456") {
-                return response()->json(['error' => 'invalid app_secret'], Response::HTTP_UNAUTHORIZED);
-            } else {
+            if ($app_id == "123456" && $app_secret == "123456") {
                 $payload = array(
                     "iss" => request()->getHttpHost(),
                     "iat" => time(),
@@ -30,6 +28,9 @@ class AuthenticateController extends Controller
                 );
                 $token = JWT::encode($payload, $this->jwt_secret,'HS256');
                 return response()->json(['token' => $token], Response::HTTP_OK);
+            } else {
+
+                return response()->json(['error' => 'invalid app_secret'], Response::HTTP_UNAUTHORIZED);
             }
         } else {
             return response()->json(['error' => 'app_id or app_secret are required'], Response::HTTP_UNAUTHORIZED);
